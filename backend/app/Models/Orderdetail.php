@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
     class Orderdetail extends Model{
-        protected $tabletablename = "order_details";
-        private $fillabe =[
+        protected $table = "order_details";
+        protected $fillable = [
             'order_id',
             'service_id',
             'repairman_id',
             'price'
         ];
         public $timestamps = false;
+
+	public function order(){
+		return $this->belongsTo(Order::class);
+	}
     }

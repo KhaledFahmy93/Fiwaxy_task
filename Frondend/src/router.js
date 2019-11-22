@@ -48,7 +48,7 @@ const router = new Router({
             component: () => import('./views/Orders.vue')
         },
         {
-            path: '/orderdetails',
+            path: '/orderdetails/:id',
             name: 'orderdetails',
             component: () => import('./views/Orderdetails.vue')
         }
@@ -58,6 +58,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.authRequired)) {
         if (!store.state.isAuthenticated) {
+            console.log("wwww");
             next({
                 path: '/sign-in'
             });

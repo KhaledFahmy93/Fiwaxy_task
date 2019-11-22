@@ -15,10 +15,10 @@ class CreateOrderDetailsTable extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('price', 4, 2);
-            $table->unsignedInteger('order_id');
-            $table->unsignedInteger('service_id');
-            $table->unsignedInteger('repairman_id');
+            $table->float('price', 4, 2)->nullable();
+            $table->unsignedInteger('order_id')->nullable();
+            $table->unsignedInteger('service_id')->nullable();
+            $table->unsignedInteger('repairman_id')->nullable();
         });
     }
 

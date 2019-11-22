@@ -67,6 +67,9 @@ export default {
         }
     },
     created: function() {
+        alert("sss");
+        
+          console.log('The id is: ' + this.$route.params.id);
         axios.get("http://localhost:8000/api/services")
         .then(res => {
             this.services = res.data.success;
