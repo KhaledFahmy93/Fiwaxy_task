@@ -22,7 +22,6 @@ I have a live demo of the meal prep application. You can [view it here](https://
 * Vue CLI
 * Vuex
 * Vuetify
-* Firebase
 
 ## Project setup
 ```

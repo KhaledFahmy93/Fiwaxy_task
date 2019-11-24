@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import firebase from 'firebase';
 import router from '@/router';
 
 Vue.use(Vuex);
@@ -61,7 +60,7 @@ export default new Vuex.Store({
                 name : email,
                 user_type:user_type
             };
-             axios.post(`http://localhost:8000/api/register` , requestOptions)
+            axios.post(`http://localhost:8000/api/register` , requestOptions)
                 .then(user => {
                     commit('setUser', user);
                     commit('setIsAuthenticated', true);
@@ -73,20 +72,10 @@ export default new Vuex.Store({
                     router.push('/');
                 });
         },
-        userSignOut({ commit }) {
-            firebase
-                .auth()
-                .signOut()
-                .then(() => {
-                    commit('setUser', null);
-                    commit('setIsAuthenticated', false);
-                    router.push('/');
-                })
-                .catch(() => {
-                    commit('setUser', null);
-                    commit('setIsAuthenticated', false);
-                    router.push('/');
-                });
+        userSignOut({ commit }) {    
+            commit('setUser', null);
+            commit('setIsAuthenticated', false);
+            router.push('/');
         },
     },
     getters: {

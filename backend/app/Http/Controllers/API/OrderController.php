@@ -27,7 +27,7 @@ class OrderController extends Controller{
     }
 
     public function orders(){
-	$orders = Order::with(['area:id,name' ,'customer:id,name'])->get();
+	$orders = Order::with(['area:id,name' ,'customer:id,name','orderdetail:order_id,price'])->get();
 	return response()->json(['success' => $orders], $this->successStatus);
     }
 	
@@ -35,6 +35,15 @@ class OrderController extends Controller{
 	$orderdetails = Orderdetail::with('service:id,name')->where("order_id" , $id)
 		->groupBy(['service_id','price'])->select(['service_id','price'])->get();
 	return response()->json(['success' => $orderdetails], $this->successStatus);
-    }	
+    }
+	
+     public function update(Request $request , $id){
+	$input = $request->all();
+	 for($i=0 ;  $i < count($input['services']) ; $i++){
+		Orderdetail::where("order_id" , $id)
+		->where('service_id' ,$input['services'][$i]['service_id'])
+		->update(['price'=> $input['services'][$i]['price']]);
+	}	 
+     }	
 
 }

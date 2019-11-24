@@ -13,7 +13,7 @@
         <td class="text-xs-left">
              <v-btn 
                 class="primary" 
-                :to="`orderdetails/:${props.item.id}`"
+                :to="`orderdetails/${props.item.id}`"
                 >price
             </v-btn>
         </td>

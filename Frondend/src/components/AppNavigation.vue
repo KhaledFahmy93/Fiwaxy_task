@@ -18,13 +18,6 @@
                     appTitle
                 }}</v-toolbar-title>
             </router-link>
-            <v-btn
-                flat
-                class="hidden-sm-and-down nav-menu"
-                to="/menu"
-                data-cy="menuBtn"
-                >Menu</v-btn
-            >
             <v-btn v-if="isAuthenticated&&isCustomer"
                 flat
                 class="hidden-sm-and-down nav-menu"
@@ -69,7 +62,6 @@ export default {
             appTitle: 'Fixawy',
             drawer: false,
             items: [
-                { title: 'Menu', url: '/menu' },
                 { title: 'Profile', url: '/about' },
                 { title: 'Sign In', url: '/sign-in' },
                 { title: 'Join', url: '/join' },

@@ -21,7 +21,7 @@
             >
                 <div> {{ props.item.price }}</div>
                 <template v-slot:input>
-                    <div class="mt-4 title">Update Hours</div>
+                    <div class="mt-4 title">Update Price</div>
                 </template>
                 <template v-slot:input>
                     <v-text-field
@@ -52,20 +52,25 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'Name' },
-                { text: 'Hours', value: 'Hours' },
+                { text: 'Price', value: 'Price' },
             ],
             services:[],
-            price:"",
             snack: false,
             snackColor: '',
             snackText: '',
         };
     },
     methods: {
-        save (service) {
+        save () {
             this.snack = true
             this.snackColor = 'success'
             this.snackText = 'Data saved'
+            let data ={
+                "services" : JSON.parse(JSON.stringify(this.services)),
+                "order_id" : this.$route.params.id,
+            }
+            axios.post("http://localhost:8000/api/ordersdetails/"+this.$route.params.id,data)
+            
         },
         cancel () {
             this.snack = true
@@ -84,8 +89,7 @@ export default {
         },
     },
     created: function() {
-          console.log('The id is: ' + this.$route.params.id);
-        axios.get("http://localhost:8000/api/ordersdetails/16")
+        axios.get("http://localhost:8000/api/ordersdetails/" +  this.$route.params.id)
         .then(res => {
              this.services = res.data.success;
          });

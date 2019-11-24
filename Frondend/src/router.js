@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import orderdetails from './views/Orderdetails.vue';
 import store from '@/store.js';
 
 Vue.use(Router);
@@ -21,11 +22,6 @@ const router = new Router({
             meta: {
                 authRequired: true
             }
-        },
-        {
-            path: '/menu',
-            name: 'menu',
-            component: () => import('./views/Menu.vue')
         },
         {
             path: '/sign-in',
@@ -50,7 +46,7 @@ const router = new Router({
         {
             path: '/orderdetails/:id',
             name: 'orderdetails',
-            component: () => import('./views/Orderdetails.vue')
+            component: orderdetails
         }
     ]
 });
