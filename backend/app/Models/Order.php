@@ -22,4 +22,8 @@ use Illuminate\Database\Eloquent\Model;
 		return $this->belongsTo(Area::class);
 	 }
 
+	 public function orderdetail(){
+        	return $this->hasMany(Orderdetail::class, 'order_id', 'id');
+    	}
+
     }
