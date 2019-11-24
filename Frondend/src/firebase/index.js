@@ -1,11 +1,8 @@
 import firebase from 'firebase';
 
 const config = {
-    apiKey: 'AIzaSyBdJRsnUapWUeFWSePHjrxdkFKXBDxzA-0',
-    authDomain: 'meal-prep-9b30a.firebaseapp.com',
-    databaseURL: 'https://meal-prep-9b30a.firebaseio.com',
-    projectId: 'meal-prep-9b30a',
-    storageBucket: '',
-    messagingSenderId: '335187018575'
+    client_id: 2,
+    client_secret: "BRCX0XNG0R7GLlni8HmhcfFFKbhbdzilBvZQZ5wG",
+    BackendURL: 'http://127.0.0.1:8000',
 };
 firebase.initializeApp(config);

@@ -1,39 +1,46 @@
 <template>
-    <v-container fill-height>
-        <v-layout align-center justify-center>
-            <v-flex xs12 sm8 md4>
-                <v-card class="elevation-110">
-                    <v-toolbar dark color="primary">
-                        <v-toolbar-title>Order detail</v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form ref="form">
-                            <!-- <div v-for="service in numservices" v-bind:key="service">
-                                 <select v-model="selectedService[service]" v-on:input="changed">
-                                    <option disabled value="">Please select one</option>
-                                    <option v-for="ser in services" v-bind:key="ser.id" v-bind:value="ser.id">{{ser.name}}</option>
-                                </select>
-
-                                <select v-model="selectedService[service]">
-                                    <option disabled value="">Please select one</option>
-                                    <option v-for="repairman in repairmen" v-bind:key="repairman.id" v-bind:value="repairman.id">{{repairman.name}}</option>
-                                </select><br>
-
-                                <label>price</label>
-                                <input type='number' v-model="price">
-                            </div>  -->
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="submit"
-                            >create Order</v-btn
-                        >
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </v-container>
+  <v-container grid-list-md text-xs-center>
+    <v-data-table
+      :headers="headers"
+      :items="services"
+        :single-expand="true"
+        class="elevation-1"
+        show-expand
+    >
+    <template v-slot:items="props">
+        <td class="text-xs-left">{{ props.item.service.name }}</td>
+        <td>
+            <v-edit-dialog
+            :return-value.sync="props.item.price"
+            large
+            persistent
+            @save="save"
+            @cancel="cancel"
+            @open="open"
+            @close="close"
+            >
+                <div> {{ props.item.price }}</div>
+                <template v-slot:input>
+                    <div class="mt-4 title">Update Hours</div>
+                </template>
+                <template v-slot:input>
+                    <v-text-field
+                    v-model="props.item.price"
+                    label="Edit"
+                    single-line
+                    counter
+                    autofocus
+                    ></v-text-field>
+                </template>
+            </v-edit-dialog>
+        </td>
+    </template>
+    </v-data-table>
+    <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+      {{ snackText }}
+      <v-btn text @click="snack = false">Close</v-btn>
+    </v-snackbar>
+  </v-container>
 </template>
 
 <script>
@@ -43,42 +50,46 @@ export default {
     name: 'orderdetails',
     data() {
         return {
-            services:'',
-            repairmen: '',
-            numservices:4,
+            headers: [
+                { text: 'Name', value: 'Name' },
+                { text: 'Hours', value: 'Hours' },
+            ],
+            services:[],
             price:"",
-            selectedService:[],
-            selectedRepairman:[],
+            snack: false,
+            snackColor: '',
+            snackText: '',
         };
     },
     methods: {
-         changed: function() {
-            console.log(this.selectedService);
+        save (service) {
+            this.snack = true
+            this.snackColor = 'success'
+            this.snackText = 'Data saved'
+        },
+        cancel () {
+            this.snack = true
+            this.snackColor = 'error'
+            this.snackText = 'Canceled'
+        },
+        open () {
+            this.snack = true
+            this.snackColor = 'info'
+            this.snackText = 'Dialog opened'
+        },
+        close () {
+            console.log('Dialog closed')
         },
         submit() {
-            console.log(this.selectedRepairman ,this.selectedRepairman );
-            // axios.post("http://localhost:8000/api/createorder",{
-                
-            // })
-            // .then(res => {
-            //     router.push('/orderdetails');
-            //     //this.services = res.data.success;
-            // });
-        }
+        },
     },
     created: function() {
-        alert("sss");
-        
           console.log('The id is: ' + this.$route.params.id);
-        axios.get("http://localhost:8000/api/services")
+        axios.get("http://localhost:8000/api/ordersdetails/16")
         .then(res => {
-            this.services = res.data.success;
-        });
-        axios.get("http://localhost:8000/api/repairmen")
-        .then(res => {
-            this.repairmen = res.data.success;
-        });
-  }
+             this.services = res.data.success;
+         });
+    }
 };
 </script>
 

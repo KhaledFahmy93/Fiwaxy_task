@@ -49,6 +49,7 @@
 </template>
 
 <script>
+require('dotenv').config()
 export default {
     name: 'Signin',
     data() {
@@ -70,6 +71,7 @@ export default {
     },
     methods: {
         submit() {
+            console.log(process);
             if (this.$refs.form.validate()) {
                 this.$store.dispatch('userLogin', {
                     email: this.email,

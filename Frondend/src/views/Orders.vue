@@ -9,12 +9,12 @@
         <td class="text-xs-left">{{ props.item.description }}</td>
         <td class="text-xs-left">{{ props.item.customer.name }}</td>
         <td class="text-xs-left">{{ props.item.area.name }}</td>
-        <td class="text-xs-left">{{ props.item.totalprice }}</td>
+        <td class="text-xs-left">Pending</td>
         <td class="text-xs-left">
-           <v-btn 
+             <v-btn 
                 class="primary" 
                 :to="`orderdetails/:${props.item.id}`"
-                >Details
+                >price
             </v-btn>
         </td>
     </template>
@@ -37,10 +37,9 @@ export default {
           { text: 'customer', value: 'customer' },
           { text: 'Area', value: 'Area' },
           { text: 'Price', value: 'Price' },
-          { text: 'Edit', value: 'iron' },
+          { text: 'Action', value: 'iron' },
         ],
-        orders: [        
-        ],
+        orders: [],
       }
     },
     methods: {

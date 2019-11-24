@@ -8,25 +8,36 @@
                     </v-toolbar>
                     <v-card-text>
                         <v-form ref="form" >
-                             <v-select
-                                v-model="selectedArea"
+                             <v-select v-on:change="changeArea"
                                 :items="areas"
                                 item-text="name"
+                                item-value="id"
                                 label="Area"
                                 required
                             ></v-select>
-
                             <v-text-field
                                 v-model="description"
                                 label="description"
                                 required
                             ></v-text-field>
-
-                             <v-text-field
-                                v-model="numservices"
-                                label="Number Of services"
-                                required
-                            ></v-text-field>   
+                            <v-select v-on:change="changeServices"
+                            :items="services"
+                             item-text="name"
+                             item-value="id"
+                            :menu-props="{ maxHeight: '400' }"
+                            multiple
+                            hint="Select Services of the order"
+                            persistent-hint
+                            ></v-select>
+                            <v-select v-on:change="changeRepairman"
+                            :items="repairmen"
+                            item-text="name"
+                            item-value="id"
+                            :menu-props="{ maxHeight: '400' }"
+                            multiple
+                            hint="Select Repairmen of the order"
+                            persistent-hint
+                            ></v-select>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
@@ -49,20 +60,34 @@ export default {
     data() {
         return {
             areas:null,
+            services:null,
+            repairmen:null,
             description:"",
             selectedArea:"",
-            numservices:null
+            selectedServices:[],
+            selectedRepairman :[],
         };
     },
     methods: {
+       changeArea(area) {
+        this.selectedArea = area;
+      },
+      changeServices(services) {
+        this.selectedServices= JSON.parse(JSON.stringify(services));
+      },
+      changeRepairman(repairman){
+          this.selectedRepairman= JSON.parse(JSON.stringify(repairman));
+      },
         submit() {
-            axios.post("http://localhost:8000/api/createorder",{
+            let data ={
                 "description" : this.description,
-                "numservices" : this.numservices,
-                "area_id" : 1,
-                "customer_id" : this.getAuthenticatedId,
-                'totalprice' : 1
-            })
+                "area_id" : this.selectedArea,
+                "services" : this.selectedServices,
+                "repairmen": this.selectedRepairman,
+                'totalprice' : 1,
+                "customer_id": 1
+            }
+            axios.post("http://localhost:8000/api/createorder",data)
             .then(res => {
                 router.push('/orders');
             });
@@ -72,12 +97,23 @@ export default {
     computed: {
         getAuthenticatedId() { 
             return this.$store.getters.getAuthenticatedId;
+        },
+        id(){
+            return (this.selectedArea && this.selectedArea.id)?this.selectedArea.id:'';
         }
     },
     created: function() {
       axios.get("http://localhost:8000/api/areas")
       .then(res => {
         this.areas = res.data.success;
+      });
+       axios.get("http://localhost:8000/api/services")
+      .then(res => {
+        this.services = res.data.success;
+      });
+       axios.get("http://localhost:8000/api/repairmen")
+      .then(res => {
+        this.repairmen = res.data.success;
       });
     }
 };
