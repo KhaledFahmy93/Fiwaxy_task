@@ -51,7 +51,7 @@ export default new Vuex.Store({
                 commit('setIsAuthenticated', false);
             });
         },
-        userJodin({ commit }, { email, password , user_type}) {
+        userJoin({ commit }, { email, password , user_type}) {
             const requestOptions = {
                 password :password,
                 email:email,
@@ -60,9 +60,9 @@ export default new Vuex.Store({
             };
             axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/register` , requestOptions)
                 .then(user => {
-                    commit('setUser', user);
+                    commit('setUser', user.data.success);
                     commit('setIsAuthenticated', true);
-                    router.push('/about');
+                    router.push('/orders');
                 })
                 .catch(() => {
                     commit('setUser', null);

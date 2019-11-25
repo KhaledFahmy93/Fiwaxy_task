@@ -31,7 +31,7 @@
                             >
                             </v-text-field>
                           
-                            <v-radio-group v-model="user_type" column>
+                            <v-radio-group v-model="user_type" column  :rules="userTypeRules">
                                 <v-radio label="customer" value="customer" ></v-radio>
                                 <v-radio label="repairman" value="repairman"></v-radio>
                             </v-radio-group>
@@ -72,13 +72,15 @@ export default {
                 v =>
                     v.length >= 6 ||
                     'Password must be greater than 6 characters'
+            ],
+            userTypeRules:[
+                v => !!v || 'Type is required',
             ]
         };
     },
     methods: {
         submit() {
             if (this.$refs.form.validate()) {
-
                 this.$store.dispatch('userJoin', {
                     email: this.email,
                     password: this.password,
