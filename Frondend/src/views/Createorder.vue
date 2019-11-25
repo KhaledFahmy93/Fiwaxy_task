@@ -14,6 +14,7 @@
                                 item-value="id"
                                 label="Area"
                                 required
+                                :rules="AreaRules"
                             ></v-select>
                             <v-text-field
                                 v-model="description"
@@ -62,6 +63,9 @@ export default {
             areas:null,
             services:null,
             repairmen:null,
+            AreaRules: [v => !!v || 'Area is required'],
+            ServiesRules: [v => !!v || 'Service is required'],
+            RepairmenRules: [v => !!v || 'Repairman is required'],
             description:"",
             selectedArea:"",
             selectedServices:[],
@@ -73,21 +77,20 @@ export default {
         this.selectedArea = area;
       },
       changeServices(services) {
-        this.selectedServices= JSON.parse(JSON.stringify(services));
+        this.selectedServices= services;
       },
       changeRepairman(repairman){
-          this.selectedRepairman= JSON.parse(JSON.stringify(repairman));
+          this.selectedRepairman= repairman;
       },
         submit() {
             let data ={
                 "description" : this.description,
                 "area_id" : this.selectedArea,
-                "services" : this.selectedServices,
-                "repairmen": this.selectedRepairman,
-                'totalprice' : 1,
-                "customer_id": 1
+                "services" : JSON.parse(JSON.stringify(this.selectedServices)),
+                "repairman_ids": JSON.stringify(JSON.parse(JSON.stringify(this.selectedRepairman))),
+                "customer_id": this.getAuthenticatedId,
             }
-            axios.post("http://localhost:8000/api/createorder",data)
+            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`api/createorder`,data)
             .then(res => {
                 router.push('/orders');
             });
@@ -103,15 +106,15 @@ export default {
         }
     },
     created: function() {
-      axios.get("http://localhost:8000/api/areas")
+      axios.get(`${process.env.VUE_APP_BACKEND_URL}`+`/api/areas`)
       .then(res => {
         this.areas = res.data.success;
       });
-       axios.get("http://localhost:8000/api/services")
+       axios.get(`${process.env.VUE_APP_BACKEND_URL}`+`/api/services`)
       .then(res => {
         this.services = res.data.success;
       });
-       axios.get("http://localhost:8000/api/repairmen")
+       axios.get(`${process.env.VUE_APP_BACKEND_URL}`+`/api/repairmen`)
       .then(res => {
         this.repairmen = res.data.success;
       });

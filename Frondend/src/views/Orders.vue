@@ -1,17 +1,20 @@
 <template >
-
+  <v-container grid-list-md text-xs-center>
    <v-data-table
     :headers="headers"
     :items="orders"
+    :single-expand="true"
+    class="elevation-1"
+    show-expand
   >
   <template v-slot:items="props">
         <td class="text-xs-left">{{ props.item.id }}</td>
         <td class="text-xs-left">{{ props.item.description }}</td>
         <td class="text-xs-left">{{ props.item.customer.name }}</td>
         <td class="text-xs-left">{{ props.item.area.name }}</td>
-        <td class="text-xs-left">Pending</td>
+        <td class="text-xs-left">{{ props.item.totalprice }}</td>
         <td class="text-xs-left">
-             <v-btn 
+             <v-btn v-if="isRepaiman"
                 class="primary" 
                 :to="`orderdetails/${props.item.id}`"
                 >price
@@ -19,6 +22,7 @@
         </td>
     </template>
 </v-data-table>
+  </v-container>
 </template>
 <script>
 import axios from 'axios';
@@ -37,7 +41,7 @@ export default {
           { text: 'customer', value: 'customer' },
           { text: 'Area', value: 'Area' },
           { text: 'Price', value: 'Price' },
-          { text: 'Action', value: 'iron' },
+          { text: 'Action', value: 'iron', align:''},
         ],
         orders: [],
       }
@@ -45,12 +49,20 @@ export default {
     methods: {
     },
     created: function() {
-      axios.get("http://localhost:8000/api/orders")
+      axios.get(`${process.env.VUE_APP_BACKEND_URL}`+`/api/orders`)
       .then(res => {
         this.orders = res.data.success;
-        console.log(this.orders);
       });
-    }
+    },
+     computed: {
+        isAuthenticated() { 
+            return this.$store.getters.isAuthenticated;
+        },
+        isRepaiman() {
+            return this.$store.getters.isRepaiman;
+        },
+    },
+
   }
 </script>
 

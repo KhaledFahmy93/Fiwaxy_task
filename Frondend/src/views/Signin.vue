@@ -1,5 +1,5 @@
 <template>
-    <v-container fill-height>
+    <v-container>    
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
@@ -49,12 +49,16 @@
 </template>
 
 <script>
-require('dotenv').config()
+import Vue from 'vue';
 export default {
     name: 'Signin',
+    created(){
+        console.log(process.env);
+    },
     data() {
         return {
             valid: false,
+            result:'',
             email: '',
             password: '',
             emailRules: [
@@ -71,13 +75,17 @@ export default {
     },
     methods: {
         submit() {
-            console.log(process);
             if (this.$refs.form.validate()) {
                 this.$store.dispatch('userLogin', {
                     email: this.email,
                     password: this.password
                 });
             }
+        }
+    },
+    computed: {
+        isAuthenticated() {
+            return this.$store.getters.isAuthenticated;
         }
     }
 };

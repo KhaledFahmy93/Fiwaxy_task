@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Schema;
 
 class CreateOrderDetailsTable extends Migration
@@ -15,10 +16,9 @@ class CreateOrderDetailsTable extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('price', 4, 2)->nullable();
+            $table->unsignedInteger('hours')->nullable();
             $table->unsignedInteger('order_id')->nullable();
             $table->unsignedInteger('service_id')->nullable();
-            $table->unsignedInteger('repairman_id')->nullable();
         });
     }
 

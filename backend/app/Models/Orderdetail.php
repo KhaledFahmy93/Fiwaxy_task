@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
         protected $fillable = [
             'order_id',
             'service_id',
-            'repairman_id',
-            'price'
+            'hours'
         ];
         public $timestamps = false;
 
@@ -19,6 +18,6 @@ use Illuminate\Database\Eloquent\Model;
 	}
 
 	public function service(){
-		return $this->belongsTo(Service::class);
+		return $this->belongsTo(Service::class , 'service_id' , 'id');
 	}
     }

@@ -10,4 +10,8 @@ use Illuminate\Database\Eloquent\Model;
             'name',
             'repairman_id',
         ];
+	
+	 public function orderdetail(){
+        	return $this->hasMany(Orderdetail::class);
+    	}
     }

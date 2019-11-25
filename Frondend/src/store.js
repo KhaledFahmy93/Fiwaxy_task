@@ -2,12 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import router from '@/router';
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
-
 export default new Vuex.Store({
+    plugins: [createPersistedState()],
     state: {
-        apiUrl: 'http://localhost:8000/',
         user: null,
         isAuthenticated: false,
     },
@@ -22,45 +22,43 @@ export default new Vuex.Store({
     actions: {
         userLogin({ commit }, { email, password}) {
             const requestOptions = {
-                client_id:2,
-                client_secret:"BRCX0XNG0R7GLlni8HmhcfFFKbhbdzilBvZQZ5wG",
+                client_id:process.env.VUE_APP_CLIENT_ID,
+                client_secret:process.env.VUE_APP_SECRET_ID,
                 username : email, 
                 password: password,
                 grant_type: 'password',
                 scope: '*', 
             };
-            axios.post(`http://localhost:8000/oauth/token`,requestOptions)
+            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/oauth/token`,requestOptions)
             .then(response => {
                 const reuqest = {
                         email : email, 
                         password: password,
-                        Accept : 'application/json',
+                        Accepts : 'application/json',
                         Authorization: "Bearer "+response.access_token,
                     };
-                axios.post(`http://localhost:8000/api/login`,reuqest)
+                axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/login`,reuqest)
                 .then(user => {
                     commit('setUser', user.data.success);
                     commit('setIsAuthenticated', true);
-                    router.push('/about');
-                }).catch(() => {
+                    router.push('/orders');
+                }).catch((error) => {
                     commit('setUser', null);
                     commit('setIsAuthenticated', false);
-                    router.push('/');
                 });    
-            }).catch(() => {
+            }).catch((error) => {
                 commit('setUser', null);
                 commit('setIsAuthenticated', false);
-                router.push('/');
             });
         },
-        userJoin({ commit }, { email, password , user_type}) {
+        userJodin({ commit }, { email, password , user_type}) {
             const requestOptions = {
                 password :password,
                 email:email,
                 name : email,
                 user_type:user_type
             };
-            axios.post(`http://localhost:8000/api/register` , requestOptions)
+            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/register` , requestOptions)
                 .then(user => {
                     commit('setUser', user);
                     commit('setIsAuthenticated', true);
@@ -89,7 +87,10 @@ export default new Vuex.Store({
             return state.user !== null && state.user.user_type == "repairman";
         },
         getAuthenticatedId(state){
-            return state.user.id
+            return state.user.id;
+        },
+        getAuthenticatedUser(state){
+            return state.user
         }
     }
 });

@@ -9,6 +9,7 @@
     >
     <template v-slot:items="props">
         <td class="text-xs-left">{{ props.item.service.name }}</td>
+        <td class="text-xs-left">{{ props.item.order.area.name }}</td>
         <td>
             <v-edit-dialog
             :return-value.sync="props.item.price"
@@ -40,6 +41,9 @@
       {{ snackText }}
       <v-btn text @click="snack = false">Close</v-btn>
     </v-snackbar>
+    <v-btn  icon class="hidden-xs-only" to="/orders">
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -52,7 +56,8 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'Name' },
-                { text: 'Price', value: 'Price' },
+                { text: 'Area', value: 'Area' },
+                { text: 'Hours', value: 'Hours' },
             ],
             services:[],
             snack: false,
@@ -69,8 +74,7 @@ export default {
                 "services" : JSON.parse(JSON.stringify(this.services)),
                 "order_id" : this.$route.params.id,
             }
-            axios.post("http://localhost:8000/api/ordersdetails/"+this.$route.params.id,data)
-            
+            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/ordersdetails/`+this.$route.params.id,data)
         },
         cancel () {
             this.snack = true
@@ -89,7 +93,7 @@ export default {
         },
     },
     created: function() {
-        axios.get("http://localhost:8000/api/ordersdetails/" +  this.$route.params.id)
+        axios.get(`${process.env.VUE_APP_BACKEND_URL}`+`/api/ordersdetails/` +  this.$route.params.id)
         .then(res => {
              this.services = res.data.success;
          });

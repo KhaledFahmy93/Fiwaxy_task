@@ -15,10 +15,11 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('description');
-            $table->float('totalprice', 4, 2);
+            $table->text('description')->nullable();
+            $table->float('totalprice', 10 , 2)->nullable();
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('area_id');
+	    $table->json('repairman_ids')->nullable();
         });
     }
 

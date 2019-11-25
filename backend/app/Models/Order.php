@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
             'description',
             'customer_id',
             'area_id',
-            'totalprice'
+            'totalprice',
+	    'repairman_ids'
         ];
 
         public $timestamps = false;
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 	 }
 
 	 public function orderdetail(){
-        	return $this->hasMany(Orderdetail::class, 'order_id', 'id');
+        	return $this->hasMany(Orderdetail::class);
     	}
 
     }

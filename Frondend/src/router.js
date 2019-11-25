@@ -26,7 +26,7 @@ const router = new Router({
         {
             path: '/sign-in',
             name: 'signin',
-            component: () => import('./views/Signin.vue')
+            component: () => import('./views/Signin.vue'),
         },
         {
             path: '/join',
@@ -36,17 +36,26 @@ const router = new Router({
         {
             path: '/createorder',
             name: 'createorder',
-            component: () => import('./views/Createorder.vue')
+            component: () => import('./views/Createorder.vue'),
+            meta: {
+                authRequired: true
+            }
         },
         {
             path: '/orders',
             name: 'orders',
-            component: () => import('./views/Orders.vue')
+            component: () => import('./views/Orders.vue'),
+            meta: {
+                authRequired: true
+            }
         },
         {
             path: '/orderdetails/:id',
             name: 'orderdetails',
-            component: orderdetails
+            component: orderdetails,
+            meta: {
+                authRequired: true
+            }
         }
     ]
 });
@@ -54,7 +63,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.authRequired)) {
         if (!store.state.isAuthenticated) {
-            console.log("wwww");
             next({
                 path: '/sign-in'
             });
