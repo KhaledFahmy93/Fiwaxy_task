@@ -2,6 +2,12 @@
     <v-container>    
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
+                <v-alert
+                    :value="isValidLogin"
+                    type="error"
+                    >
+                     Invalid email and/or password.
+                </v-alert>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary">
                         <v-toolbar-title>Login Form</v-toolbar-title>
@@ -53,7 +59,6 @@ import Vue from 'vue';
 export default {
     name: 'Signin',
     created(){
-        console.log(process.env);
     },
     data() {
         return {
@@ -84,8 +89,8 @@ export default {
         }
     },
     computed: {
-        isAuthenticated() {
-            return this.$store.getters.isAuthenticated;
+        isValidLogin(){
+            return this.$store.getters.getLoginError;
         }
     }
 };

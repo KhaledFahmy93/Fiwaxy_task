@@ -11,4 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 	    'area_id',
             'price',
         ];
+	public function service(){
+		return $this->belongsTo(Service::class);
+	}
+	public function area(){
+		return $this->belongsTo(Area::class);
+	}
     }

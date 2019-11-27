@@ -7,8 +7,19 @@
             dark
             disable-resize-watcher
         >
+        <v-list>
+                <template v-for="(item, index) in items">
+                    <v-list-tile :key="index" :to="item.url">
+                        <v-list-tile-content>
+                            {{ item.title }}
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider :key="`divider-${index}`"></v-divider>
+                </template>
+            </v-list>
         </v-navigation-drawer>
         <v-toolbar app color="brown darken-4" dark>
+             <v-toolbar-side-icon @click.stop="drawer = !drawer" dark></v-toolbar-side-icon>
             <v-toolbar-side-icon
                 class="hidden-md-and-up"
                 @click="drawer = !drawer"
@@ -18,19 +29,19 @@
                     appTitle
                 }}</v-toolbar-title>
             </router-link>
-            <v-btn v-if="isAuthenticated&&isCustomer"
-                flat
-                class="hidden-sm-and-down nav-menu"
-                to="/createorder"
-                data-cy="menuBtn"
-                >Create Order</v-btn
-            >
-             <v-btn v-if="isAuthenticated"
+            <v-btn v-if="isAuthenticated"
                 flat
                 class="hidden-sm-and-down nav-menu"
                 to="/orders"
                 data-cy="menuBtn"
                 >Orders</v-btn
+            >
+            <v-btn v-if="isAuthenticated"
+                flat
+                class="hidden-sm-and-down nav-menu"
+                to="/services"
+                data-cy="menuBtn"
+                >Services</v-btn
             >
 
             <v-spacer class="hidden-sm-and-down"></v-spacer>
@@ -64,9 +75,9 @@ export default {
             items: [
                 { title: 'Profile', url: '/about' },
                 { title: 'Sign In', url: '/sign-in' },
-                { title: 'Join', url: '/join' },
-                { title: 'createorder', url: '/createorder' },
-                { title: 'orders', url: '/orders' }
+                { title: 'Sign up', url: '/join'},
+                { title: 'orders', url: '/orders' },
+                 { title: 'services', url: '/services' },
             ]
         };
     },

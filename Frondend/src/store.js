@@ -10,6 +10,8 @@ export default new Vuex.Store({
     state: {
         user: null,
         isAuthenticated: false,
+        loader:false,
+        loginError:false
     },
     mutations: {
         setUser(state, payload) {
@@ -17,6 +19,12 @@ export default new Vuex.Store({
         },
         setIsAuthenticated(state, payload) {
             state.isAuthenticated = payload;
+        },
+        setLoader(state, payload) {
+            state.loader = payload;
+        },
+        setLoginError(state, payload) {
+            state.loginError = payload;
         },
     },
     actions: {
@@ -42,13 +50,16 @@ export default new Vuex.Store({
                     commit('setUser', user.data.success);
                     commit('setIsAuthenticated', true);
                     router.push('/orders');
+                    commit('setLoginError', false);
                 }).catch((error) => {
                     commit('setUser', null);
                     commit('setIsAuthenticated', false);
+                    commit('setLoginError', true);
                 });    
             }).catch((error) => {
                 commit('setUser', null);
                 commit('setIsAuthenticated', false);
+                commit('setLoginError', true);
             });
         },
         userJoin({ commit }, { email, password , user_type}) {
@@ -91,6 +102,9 @@ export default new Vuex.Store({
         },
         getAuthenticatedUser(state){
             return state.user
+        },
+        getLoginError(state){
+            return state.loginError;
         }
     }
 });

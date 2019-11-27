@@ -7,14 +7,14 @@
                         <v-toolbar-title>create Order</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <v-form ref="form" >
+                        <v-form ref="form" v-model="valid">
                              <v-select v-on:change="changeArea"
                                 :items="areas"
                                 item-text="name"
                                 item-value="id"
                                 label="Area"
-                                required
                                 :rules="AreaRules"
+                                 required
                             ></v-select>
                             <v-text-field
                                 v-model="description"
@@ -23,12 +23,14 @@
                             ></v-text-field>
                             <v-select v-on:change="changeServices"
                             :items="services"
-                             item-text="name"
-                             item-value="id"
+                             item-text="service.name"
+                             item-value="service_id"
                             :menu-props="{ maxHeight: '400' }"
                             multiple
                             hint="Select Services of the order"
                             persistent-hint
+                             :rules="ServiesRules"
+                             required
                             ></v-select>
                             <v-select v-on:change="changeRepairman"
                             :items="repairmen"
@@ -38,13 +40,15 @@
                             multiple
                             hint="Select Repairmen of the order"
                             persistent-hint
+                            :rules="RepairmenRules"
+                            required=""
                             ></v-select>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="primary" @click="submit"
-                            >create Order</v-btn
+                            >create</v-btn
                         >
                     </v-card-actions>
                 </v-card>
@@ -60,6 +64,7 @@ export default {
     name: 'createorder',
     data() {
         return {
+            valid: false,
             areas:null,
             services:null,
             repairmen:null,
@@ -86,14 +91,16 @@ export default {
             let data ={
                 "description" : this.description,
                 "area_id" : this.selectedArea,
+                "customer_id": this.getAuthenticatedId,
                 "services" : JSON.parse(JSON.stringify(this.selectedServices)),
                 "repairman_ids": JSON.stringify(JSON.parse(JSON.stringify(this.selectedRepairman))),
-                "customer_id": this.getAuthenticatedId,
             }
-            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`api/createorder`,data)
-            .then(res => {
-                router.push('/orders');
-            });
+            if (this.$refs.form.validate()) {
+                axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/createorder`,data)
+                .then(res => {
+                    router.push('/orders');
+                });
+            }
         },
         
     },

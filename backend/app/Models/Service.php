@@ -14,4 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 	 public function orderdetail(){
         	return $this->hasMany(Orderdetail::class);
     	}
+	public function hourrate(){
+        	return $this->hasMany(Hourrate::class);
+    	}
+ 
     }

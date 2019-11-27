@@ -1,5 +1,23 @@
 <template >
-  <v-container grid-list-md text-xs-center>
+  <v-container grid-list-md >
+    <v-alert
+      :value="false"
+      type="success"
+    >
+      This is a success alert.
+    </v-alert>
+    <v-alert
+      :value="false"
+      type="error"
+    >
+      This is a error alert.
+    </v-alert>
+    <v-btn v-if="!isRepaiman" 
+      to="/createorder"
+      data-cy="menuBtn" 
+      color="primary">
+      create order
+    </v-btn>
    <v-data-table
     :headers="headers"
     :items="orders"
@@ -8,7 +26,7 @@
     show-expand
   >
   <template v-slot:items="props">
-        <td class="text-xs-left">{{ props.item.id }}</td>
+        <td class="text-xs-left">{{ props.index+1 }}</td>
         <td class="text-xs-left">{{ props.item.description }}</td>
         <td class="text-xs-left">{{ props.item.customer.name }}</td>
         <td class="text-xs-left">{{ props.item.area.name }}</td>
@@ -32,15 +50,15 @@ export default {
       return {
         headers: [
          {
-            text: 'ID',
+            text: '#',
             align: 'left',
             sortable: false,
-            value: 'ID',
+            value: 'Index',
           },
           { text: 'Description', value: 'Description' },
           { text: 'customer', value: 'customer' },
           { text: 'Area', value: 'Area' },
-          { text: 'Price', value: 'Price' },
+          { text: 'Total Price', value: 'Price' },
           { text: 'Action', value: 'iron', align:''},
         ],
         orders: [],

@@ -2,6 +2,12 @@
     <v-container fill-height>
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
+                <v-alert
+                    :value="isValidLogin"
+                    type="error"
+                    >
+                     Invalid email and/or password.
+                </v-alert>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary">
                         <v-toolbar-title>Join Form</v-toolbar-title>
@@ -57,6 +63,8 @@
 <script>
 export default {
     name: 'Join',
+    created(){
+    },
     data() {
         return {
             valid: false,
@@ -87,6 +95,11 @@ export default {
                     user_type : this.user_type
                 });
             }
+        }
+    },
+     computed: {
+        isValidLogin(){
+            return this.$store.getters.getLoginError;
         }
     }
 };

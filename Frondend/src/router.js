@@ -50,6 +50,14 @@ const router = new Router({
             }
         },
         {
+            path: '/services',
+            name: 'services',
+            component: () => import('./views/Services.vue'),
+            meta: {
+                authRequired: true
+            }
+        },
+        {
             path: '/orderdetails/:id',
             name: 'orderdetails',
             component: orderdetails,

@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Service;
+use App\Models\Hourrate;
 
 class ServiceController extends Controller{
 
     public $successStatus = 200;
 
     public function services(){
-        $service = Service::all();
+        $service = Hourrate::with(['service', 'area'])->get();
         return response()->json(['success' => $service], $this->successStatus); 
     }
 
