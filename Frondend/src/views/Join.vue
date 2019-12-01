@@ -6,11 +6,11 @@
                     :value="isValidLogin"
                     type="error"
                     >
-                     Invalid email and/or password.
+                     {{ this.$store.getters.getLoginError }}
                 </v-alert>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary">
-                        <v-toolbar-title>Join Form</v-toolbar-title>
+                        <v-toolbar-title>Sign Up</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-form ref="form" v-model="valid" lazy-validation>

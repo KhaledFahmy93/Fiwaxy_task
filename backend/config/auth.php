@@ -68,13 +68,8 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Customer::class,
+            'model' => App\Models\User::class,
         ],
-
-        // 'repairmen' => [
-        //     'driver' => 'eloquent',
-        //     'model' =>  App\Models\repairman::class,
-        // ],
     ],
 
     /*

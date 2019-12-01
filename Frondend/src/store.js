@@ -63,6 +63,7 @@ export default new Vuex.Store({
             });
         },
         userJoin({ commit }, { email, password , user_type}) {
+            commit('setLoginError', false);
             const requestOptions = {
                 password :password,
                 email:email,
@@ -73,12 +74,15 @@ export default new Vuex.Store({
                 .then(user => {
                     commit('setUser', user.data.success);
                     commit('setIsAuthenticated', true);
+                    commit('setLoginError', false);
                     router.push('/orders');
                 })
-                .catch(() => {
+                .catch((error) => {
                     commit('setUser', null);
                     commit('setIsAuthenticated', false);
-                    router.push('/');
+                    if(error.response && error.response.data){
+                        commit('setLoginError', error.response.data.error.email[0]);
+                    }
                 });
         },
         userSignOut({ commit }) {    

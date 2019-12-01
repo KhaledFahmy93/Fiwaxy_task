@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->float('totalprice', 10 , 2)->nullable();
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('area_id');
-	    $table->json('repairman_ids')->nullable();
+	        $table->json('repairman_ids')->nullable();
         });
     }
 

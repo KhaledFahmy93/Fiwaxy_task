@@ -75,9 +75,11 @@ router.beforeEach((to, from, next) => {
                 path: '/sign-in'
             });
         } else {
+            store.commit('setLoginError' , null);
             next();
         }
     } else {
+        store.commit('setLoginError' , null);
         next();
     }
 });

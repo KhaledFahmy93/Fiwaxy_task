@@ -30,7 +30,7 @@
         <td class="text-xs-left">{{ props.item.description }}</td>
         <td class="text-xs-left">{{ props.item.customer.name }}</td>
         <td class="text-xs-left">{{ props.item.area.name }}</td>
-        <td class="text-xs-left">{{ props.item.totalprice }}</td>
+        <td class="text-xs-left">{{ props.item.totalprice?props.item.totalprice:'Pending' }}</td>
         <td class="text-xs-left">
              <v-btn v-if="isRepaiman"
                 class="primary" 
@@ -49,22 +49,15 @@ export default {
     data () {
       return {
         headers: [
-         {
-            text: '#',
-            align: 'left',
-            sortable: false,
-            value: 'Index',
-          },
+          { text: '#', align: 'left',sortable: false,value: 'Index',},
           { text: 'Description', value: 'Description' },
           { text: 'customer', value: 'customer' },
           { text: 'Area', value: 'Area' },
           { text: 'Total Price', value: 'Price' },
-          { text: 'Action', value: 'iron', align:''},
+          { text: 'Action', value: 'iron',  sortable: false},
         ],
         orders: [],
       }
-    },
-    methods: {
     },
     created: function() {
       axios.get(`${process.env.VUE_APP_BACKEND_URL}`+`/api/orders`)
@@ -73,14 +66,10 @@ export default {
       });
     },
      computed: {
-        isAuthenticated() { 
-            return this.$store.getters.isAuthenticated;
-        },
         isRepaiman() {
             return this.$store.getters.isRepaiman;
         },
     },
-
   }
 </script>
 

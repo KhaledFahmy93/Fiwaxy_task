@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -26,7 +26,7 @@ class UserController extends Controller
     public function register(Request $request) 
     { 
         $validator = Validator::make($request->all(), [  
-            'email' => 'required|email', 
+            'email' => 'required|email|unique:users,email', 
             'password' => 'required', 
 	    'user_type' => 'required'
         ]);
@@ -36,7 +36,7 @@ class UserController extends Controller
         $input = $request->all(); 
         $input['password'] = bcrypt($input['password']);
         $input['name'] = $input['name']; 
-        $user = Customer::create($input); 
+        $user = User::create($input); 
         $user['token'] =  $user->createToken('MyApp')-> accessToken; 
         return response()->json(['success'=>$user], $this-> successStatus); 
     }

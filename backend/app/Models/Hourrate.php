@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
         public $timestamps = false;
         private $fillabe =[
             'service_id',
-	    'area_id',
+	        'area_id',
             'price',
         ];
 	public function service(){

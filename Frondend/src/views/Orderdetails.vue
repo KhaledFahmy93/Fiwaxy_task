@@ -1,8 +1,8 @@
 <template>
   <v-container grid-list-md text-xs-center>
     <v-data-table
-      :headers="headers"
-      :items="services"
+        :headers="headers"
+        :items="services"
         :single-expand="true"
         class="elevation-1"
         show-expand
@@ -20,7 +20,8 @@
             @open="open"
             @close="close"
             >
-                <div> {{ props.item.price }}</div>
+                <div> {{ props.item.hours }}</div>
+                <!-- <v-icon small class="mr-2">edit</v-icon>   -->
                 <template v-slot:input>
                     <div class="mt-4 title">Update Price</div>
                 </template>

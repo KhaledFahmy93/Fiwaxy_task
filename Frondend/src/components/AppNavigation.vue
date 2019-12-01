@@ -3,7 +3,7 @@
         <v-navigation-drawer
             app
             v-model="drawer"
-            class="brown lighten-2"
+            class="indigo"
             dark
             disable-resize-watcher
         >
@@ -18,7 +18,7 @@
                 </template>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar app color="brown darken-4" dark>
+        <v-toolbar app color="indigo" dark>
              <v-toolbar-side-icon @click.stop="drawer = !drawer" dark></v-toolbar-side-icon>
             <v-toolbar-side-icon
                 class="hidden-md-and-up"
@@ -46,11 +46,11 @@
 
             <v-spacer class="hidden-sm-and-down"></v-spacer>
             <div v-if="!isAuthenticated" class="hidden-sm-and-down">
-                <v-btn flat to="/sign-in" data-cy="signinBtn">sign in</v-btn>   
+                <v-btn flat class="hidden-sm-and-down nav-menu" to="/sign-in" data-cy="signinBtn">sign in</v-btn>   
                 <v-btn
-                    color="brown lighten-3"
+                    flat
+                    class="hidden-sm-and-down nav-menu"
                     to="/join"
-                    class="nav-join"
                     data-cy="joinBtn"
                     >Sign up</v-btn
                 >

@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
             'customer_id',
             'area_id',
             'totalprice',
-	    'repairman_ids'
+	    	'repairman_ids'
         ];
 
         public $timestamps = false;
 	
 	public function customer(){
-		return $this->belongsTo(Customer::class);
+		return $this->belongsTo(User::class);
 	}
 
 	 public function area(){
