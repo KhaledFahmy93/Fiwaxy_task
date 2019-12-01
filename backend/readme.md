@@ -26,6 +26,10 @@ Run the database migrations (**Set the database connection in .env before migrat
 
     php artisan migrate
 
+Run the database seeders
+
+    php artisan db:seed
+
 Start the local development server
 
     php artisan serve

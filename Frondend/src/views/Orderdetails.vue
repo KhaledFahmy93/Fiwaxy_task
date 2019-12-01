@@ -21,13 +21,13 @@
             @close="close"
             >
                 <div> {{ props.item.hours }}</div>
-                <!-- <v-icon small class="mr-2">edit</v-icon>   -->
+                <v-icon small class="mr-3">edit</v-icon>
                 <template v-slot:input>
                     <div class="mt-4 title">Update Price</div>
                 </template>
                 <template v-slot:input>
                     <v-text-field
-                    v-model="props.item.price"
+                    v-model="props.item.hours"
                     label="Edit"
                     single-line
                     counter
@@ -68,14 +68,16 @@ export default {
     },
     methods: {
         save () {
-            this.snack = true
-            this.snackColor = 'success'
-            this.snackText = 'Data saved'
+	    this.snack = true;
+            this.snackColor = 'success';
+            this.snackText = 'Data saved';	
             let data ={
                 "services" : JSON.parse(JSON.stringify(this.services)),
                 "order_id" : this.$route.params.id,
             }
-            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/ordersdetails/`+this.$route.params.id,data)
+            axios.post(`${process.env.VUE_APP_BACKEND_URL}`+`/api/ordersdetails/`+this.$route.params.id , data).then(res => {
+             console.log("AaaA");
+         });
         },
         cancel () {
             this.snack = true

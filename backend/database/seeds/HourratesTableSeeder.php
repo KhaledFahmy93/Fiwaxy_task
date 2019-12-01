@@ -11,6 +11,9 @@ class HourratesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Hourrate::class, 5)->create();
+        factory(App\Models\Hourrate::class, 5)->create()->each(function ($hourrate) {
+            factory(App\Models\Service::class)->create(['id' => $hourrate->service_id]);
+            factory(App\Models\Area::class)->create(['id' => $hourrate->area_id]);
+        });
     }
 }

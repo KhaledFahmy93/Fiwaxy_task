@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth:api'], function()
 {
    Route::get('orders', 'API\OrderController@orders');
    Route::get('ordersdetails/{id}', 'API\OrderController@show');
-   Route::post('ordersdetails/{id}', 'API\OrderController@update');
+   Route::post('ordersdetails/{id}', 'API\OrderdetailsController@update');
    Route::get('repairmen', 'API\RepairmanController@repairmen');
    Route::get('services', 'API\ServiceController@services');
    Route::get('areas', 'API\AreaController@areas');

@@ -11,7 +11,7 @@ class ServiceController extends Controller{
     public $successStatus = 200;
 
     public function services(){
-        $service = Hourrate::with(['service', 'area'])->get();
+        $service = Hourrate::with(['service', 'area'])->has('service')->has('area')->get();
         return response()->json(['success' => $service], $this->successStatus); 
     }
 

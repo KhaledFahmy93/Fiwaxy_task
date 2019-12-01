@@ -37,18 +37,4 @@ class OrderController extends Controller{
 	return response()->json(['success' => $orderdetails], $this->successStatus);
     }
 	
-     public function update(Request $request , $id){
-	$input = $request->all();
-	$total_price = 0;
-	 for($i=0 ;  $i < count($input['services']) ; $i++){
-		$area_id = $input['services'][$i]['order']['area_id'];
-		$service_id = $input['services'][$i]['service_id'];
-		$hours = $input['services'][$i]['hours'];
-		Orderdetail::where("order_id" , $id)->where('service_id' ,$service_id)->update(['hours'=> $hours]);
-		$price = Hourrate::where(['service_id'=> $service_id , 'area_id' => $area_id])->select('price')->first()['price'];
-		$total_price += $price * $hours ;	
-	}
-	Order::where('id' , $id )->update(['totalprice'=>$total_price]);	 
-     }	
-
 }
